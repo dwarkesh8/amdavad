@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Amdavad - The Gujarati Ludo</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/spinner.css">
+	<style type="text/css">
+		body {
+			background-color: #FFFFFF;
+		}
+		#main {
+			display: none;
+		}
+		table {
+			border: 10px solid black;
+			background-image: url('assets/img/wooden-board.webp');
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		td {
+			padding: 61px 61px 61px 61px;
+			background-color: brown;
+			opacity: 0.7;
+		}
+		td.home {
+			background-image: url('assets/img/home-cross.png');
+			background-size: cover;
+			background-repeat: no-repeat;
+			opacity: 1;
+		}
+		td.entrance-d {
+			background-image: url('assets/img/yellow-arrow.png');
+			background-size: cover;
+			background-repeat: no-repeat;
+			transform: rotate(90deg);
+		}
+		td.entrance-r {
+			background-image: url('assets/img/red-arrow.png');
+			background-size: cover;
+			background-repeat: no-repeat;
+			transform: rotate(0deg);
+		}
+		td.entrance-l {
+			background-image: url('assets/img/blue-arrow.png');
+			background-size: cover;
+			background-repeat: no-repeat;
+			transform: rotate(180deg);
+		}
+		td.entrance-t {
+			background-image: url('assets/img/green-arrow.png');
+			background-size: cover;
+			background-repeat: no-repeat;
+			transform: rotate(270deg);
+		}
+		span > img.cb {
+			position: absolute;
+			margin-top: 22px;
+			margin-left: -18px;
+		}
+		span > img.ct {
+			position: absolute;
+			margin-top: -59px;
+			margin-left: -20px;
+		}
+		span > img.ct:hover, span > img.cb:hover, span > img.cr:hover, span > img.cl:hover {
+			background-color: transparent;
+			border-radius: 20px;
+			box-shadow: 0px 0px 8px 2px aquamarine;
+		}
+		span > img.cr {
+			position: absolute;
+			margin-top: -21px;
+			margin-left: 19px;
+		}
+		span > img.cl {
+			position: absolute;
+			margin-top: -21px;
+			margin-left: -60px;
+		}
+		#dice {
+			position: absolute;
+			margin-top: -420px;
+			margin-left: 800px;
+		}
+		#dice_value {
+			font-size: 88px;
+			font-weight: 1;
+			font-family: serif;
+			color: #049f04;
+			height: 90px;
+			width: 90px;
+			border: 2px solid #049f04;
+			background-color: #161c19;
+			padding: 15px 10px;
+		}
+		button {
+			font-weight: 1;
+			font-family: serif;
+			margin-top: 7px;
+			padding: 10px 42px;
+			color: black;
+			border-radius: 35px;
+			border: 4px solid #b85242;
+			box-shadow: 0px 0px 16px 4px #161617;
+			font-weight: bold;
+		}
+		button:hover {
+			box-shadow: 0px 0px 16px 4px #049f04;
+			background-color: black;
+			color: white;
+		}
+		.highlight {
+			background-color: transparent;
+			border-radius: 20px;
+			box-shadow: 0px 0px 8px 2px aquamarine;
+		}
+		table#box {
+			box-shadow: 1px 2px 16px 11px black;
+		}
+	</style>
+</head>
+<body>
+	<div id="loader">
+		<div class="loader" role="status">
+		</div>
+	</div>
+	<div id="main">
+		<div id="game-board" align="left">
+			<table id="box">
+				<tr>
+					<td cell-id="1"></td>
+					<td cell-id="2"></td>
+					<td cell-id="3" class="home bg-yellow" isHome="home">
+						<span id="cookieYA" class="yellow"><img src="assets/img/cookie-yellow.png" class="cb" img-c="yellow"></span>
+						<span id="cookieYB" class="yellow"><img src="assets/img/cookie-yellow.png" class="ct" img-c="yellow"></span>
+						<span id="cookieYC" class="yellow"><img src="assets/img/cookie-yellow.png" class="cr" img-c="yellow"></span>
+						<span id="cookieYD" class="yellow"><img src="assets/img/cookie-yellow.png" class="cl" img-c="yellow"></span>
+					</td>
+					<td cell-id="4" class="entrance-d"></td>
+					<td cell-id="5"></td>
+				</tr>
+				<tr>
+					<td cell-id="6" class="entrance-r"></td>
+					<td cell-id="7"></td>
+					<td cell-id="8"></td>
+					<td cell-id="9"></td>
+					<td cell-id="10"></td>
+				</tr>
+				<tr>
+					<td cell-id="11" class="home bg-red" isHome="home">
+						<span id="cookieRA" class="red"><img src="assets/img/cookie-red.png" class="cb" img-c="red"></span>
+						<span id="cookieRB" class="red"><img src="assets/img/cookie-red.png" class="ct" img-c="red"></span>
+						<span id="cookieRC" class="red"><img src="assets/img/cookie-red.png" class="cr" img-c="red"></span>
+						<span id="cookieRD" class="red"><img src="assets/img/cookie-red.png" class="cl" img-c="red"></span>
+					</td>
+					<td cell-id="12"></td>
+					<td cell-id="13" class="home"></td>
+					<td cell-id="14"></td>
+					<td cell-id="15" class="home bg-blue" isHome="home">
+						<span id="cookieBA" class="blue"><img src="assets/img/cookie-blue.png" class="cb" img-c="blue"></span>
+						<span id="cookieBB" class="blue"><img src="assets/img/cookie-blue.png" class="ct" img-c="blue"></span>
+						<span id="cookieBC" class="blue"><img src="assets/img/cookie-blue.png" class="cr" img-c="blue"></span>
+						<span id="cookieBD" class="blue"><img src="assets/img/cookie-blue.png" class="cl" img-c="blue"></span>
+					</td>
+				</tr>
+				<tr>
+					<td cell-id="16"></td>
+					<td cell-id="17"></td>
+					<td cell-id="18"></td>
+					<td cell-id="19"></td>
+					<td cell-id="20" class="entrance-l"></td>
+				</tr>
+				<tr>
+					<td cell-id="21"></td>
+					<td cell-id="22" class="entrance-t"></td>
+					<td cell-id="23" class="home bg-green" isHome="home">
+						<span id="cookieGA" class="green"><img src="assets/img/cookie-green.png" class="cb" img-c="green"></span>
+						<span id="cookieGB" class="green"><img src="assets/img/cookie-green.png" class="ct" img-c="green"></span>
+						<span id="cookieGC" class="green"><img src="assets/img/cookie-green.png" class="cr" img-c="green"></span>
+						<span id="cookieGD" class="green"><img src="assets/img/cookie-green.png" class="cl" img-c="green"></span>
+					</td>
+					<td cell-id="24"></td>
+					<td cell-id="25"></td>
+				</tr>
+			</table>
+		</div>
+		<div align="center" id="dice">
+			<div id="dice_value"></div>
+			<button id="btnRollDice">Roll Dice</button>
+		</div>
+	</div>
+	<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/js/cookie.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#loader").fadeOut(1000);
+			$("#main").fadeIn(1000);
+
+			setCookie('current_turn','',-1);
+			setCookie('current_turn','',-1);
+
+			let kill_passes = [];
+
+			let tab_seq_y = [3,2,1,6,11,16,21,22,23,24,25,20,15,10,5,4,9,14,19,18,17,12,7,8,13];
+			let tab_seq_r = [11,16,21,22,23,24,25,20,15,10,5,4,3,2,1,6,7,8,9,14,19,18,17,12,13];
+			let tab_seq_g = [23,24,25,20,15,10,5,4,3,2,1,6,11,16,21,22,17,12,7,8,9,14,19,18,13];
+			let tab_seq_b = [15,10,5,4,3,2,1,6,11,16,21,22,23,24,25,20,19,18,17,12,7,8,9,14,13];
+
+			let licence_zone = [7,8,9,12,13,14,17,18,19];
+
+			setCookie('current_turn','yellow',1);
+			let turn_seq = ['yellow','red','green','blue'];
+
+			function roll_dice() {
+				// let dice = [1,2,3,4,8,2,3,1,2,3,2,1,2,3,2,3];
+				let dice = [1,2,3,4,8,8,4,8,3];
+				$("button").attr('disabled',true);
+				var cookie = getCookie('current_turn');
+				$("span."+cookie).find('img').addClass('highlight');
+				return dice[Math.floor(Math.random() * dice.length)];
+			}
+
+			function isValidMove(clickedPlayer = '') {
+				//player's turn
+				var player = getCookie('current_turn');
+				if (player == clickedPlayer) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+
+			function giveKillPass(cookie) {
+				if (cookie == 'yellow') {
+					kill_passes[0] = 'yellow';
+				}
+				else if(cookie == 'red') {
+					kill_passes[1] = 'red';	
+				}
+				else if(cookie == 'green') {
+					kill_passes[2] = 'green';	
+				}
+				else if(cookie == 'blue') {
+					kill_passes[3] = 'blue';	
+				}
+				else {}
+			}
+
+		function diff(a,b,cookie) {
+			if (cookie == 'yellow') {
+				var a = tab_seq_y.indexOf(a);
+				var b = tab_seq_y.indexOf(b);
+			}
+			else if(cookie == 'red') {
+				var a = tab_seq_r.indexOf(a);
+				var b = tab_seq_r.indexOf(b);
+			}
+			else if(cookie == 'green') {
+				var a = tab_seq_g.indexOf(a);
+				var b = tab_seq_g.indexOf(b);
+			}
+			else if(cookie == 'blue') {
+				var a = tab_seq_b.indexOf(a);
+				var b = tab_seq_b.indexOf(b);
+			}
+			else {}
+				if (a>b) {
+					return a-b;
+				}
+				else {
+					return b-a;
+				}
+			}
+
+			$("#btnRollDice").on("click",function(){
+				var dice_no = roll_dice();
+				$("#dice_value").html(dice_no);
+				setCookie('dice_value',dice_no,1);
+			});
+
+			$("#box").on("click","span",function(){
+				var isRolled = checkCookie('dice_value');
+				if (isRolled) {
+
+					if(isValidMove($(this).attr('class'))) {
+						var kill = false;
+						var isEntrance = false;
+						var thisElem = $(this);
+						var cookie_img = $(this).html();
+						var cookie_span_id = $(this).attr("id");
+
+						var current_cell = $(this).closest('td').attr("cell-id");
+						if (current_cell == 13) {
+							alert('Can not move this cookie');
+							return false;
+						}
+						var dice_no = getCookie('dice_value');
+						var cookie_color = $(this).attr('class');
+						if (cookie_color == 'yellow') {
+							var index = tab_seq_y.indexOf(parseInt(current_cell));
+							var new_index = parseInt(index)+parseInt(dice_no);
+							var move_to_cell = tab_seq_y[new_index];
+							var cookie_html = '<span id="'+cookie_span_id+'" class="yellow">';
+						}
+						else if (cookie_color == 'red') {
+							var index = tab_seq_r.indexOf(parseInt(current_cell));
+							var new_index = parseInt(index)+parseInt(dice_no);
+							var move_to_cell = tab_seq_r[new_index];
+							var cookie_html = '<span id="'+cookie_span_id+'" class="red">';
+						}
+						else if (cookie_color == 'blue') {
+							var index = tab_seq_b.indexOf(parseInt(current_cell));
+							var new_index = parseInt(index)+parseInt(dice_no);
+							var move_to_cell = tab_seq_b[new_index];
+							var cookie_html = '<span id="'+cookie_span_id+'" class="blue">';
+						}
+						else if (cookie_color == 'green') {
+							var index = tab_seq_g.indexOf(parseInt(current_cell));
+							var new_index = parseInt(index)+parseInt(dice_no);
+							var move_to_cell = tab_seq_g[new_index];
+							var cookie_html = '<span id="'+cookie_span_id+'" class="green">';
+						}
+						else {
+							console.log('Wrong option');
+						}
+						if (typeof move_to_cell == 'undefined') {
+							alert('wait till the right number on dice');
+							return false;
+						}
+						var lz = licence_zone.includes(move_to_cell);
+						var hasPass = kill_passes.includes(cookie_color);
+
+						if (lz && !hasPass) {
+							alert('You need pass to enter in cell: '+move_to_cell);
+							if (cookie_color == 'yellow') {
+								var d = diff(3,parseInt(current_cell),'yellow');
+								console.log('current_cell='+current_cell);
+								console.log('diff='+d);
+								var temp_index = parseInt(dice_no)-d;
+								temp_index = Math.abs(temp_index);
+								console.log('dice='+dice_no);
+								move_to_cell = tab_seq_y[temp_index];
+								console.log('move to cell='+move_to_cell);
+
+							}
+							else if(cookie_color == 'red') {
+								var d = diff(11,parseInt(current_cell),'red');
+								var temp_index = parseInt(dice_no)-d;
+								temp_index = Math.abs(temp_index);
+
+
+								move_to_cell = tab_seq_r[temp_index];
+								console.log('diff='+d);
+								console.log('dice='+dice_no);
+								console.log('move to cell='+move_to_cell);
+							}
+							else if(cookie_color == 'green') {
+								var d = diff(23,parseInt(current_cell),'green');
+								var temp_index = parseInt(dice_no)-d;
+								temp_index = Math.abs(temp_index);
+
+
+								move_to_cell = tab_seq_g[temp_index];
+								console.log('diff='+d);
+								console.log('dice='+dice_no);
+								console.log('move to cell='+move_to_cell);
+
+							}
+							else if(cookie_color == 'blue') {
+								var d = diff(15,parseInt(current_cell),'blue');
+								var temp_index = parseInt(dice_no)-d;
+								temp_index = Math.abs(temp_index);
+
+
+								move_to_cell = tab_seq_b[temp_index];
+								console.log('diff='+d);
+								console.log('dice='+dice_no);
+								console.log('move to cell='+move_to_cell);
+
+							}
+							else {}
+						}
+					thisElem.remove();
+					cookie_html += cookie_img;
+					cookie_html += '</span>';
+					var existing_html = $("td[cell-id='"+move_to_cell+"']").html();
+					var isHome = $("td[cell-id='"+move_to_cell+"']").attr('isHome');
+					if (typeof isHome == 'undefined') {
+
+						var count_victim_html_objs = $("td[cell-id='"+move_to_cell+"']").children().length;
+						var victim_html = $("td[cell-id='"+move_to_cell+"']").html();
+
+						var victim_html_obj = $("td[cell-id='"+move_to_cell+"']").children();
+
+						if (typeof victim_html_obj.attr('class') != 'undefined') {
+							if (victim_html_obj.attr('class') != cookie_color) {
+								alert('kill');
+								kill = true;
+								$("td[cell-id='"+move_to_cell+"']").html('');
+								var victim_home_html = $("td.bg-"+victim_html_obj.attr('class')).html();
+								victim_home_html += victim_html;
+								/*Send back to its home*/
+								$("td.bg-"+victim_html_obj.attr('class')).html(victim_home_html);
+							}
+						}
+					}
+
+					existing_html += cookie_html;
+					var final_html = existing_html;
+
+					if (kill == true) {
+						giveKillPass(cookie_color);
+						$("td[cell-id='"+move_to_cell+"']").html(cookie_html);
+					}
+					else {
+						$("td[cell-id='"+move_to_cell+"']").html(final_html);
+					}
+
+
+						// thisElem.remove();
+						var cookie = getCookie('current_turn');
+						$("span."+cookie).find('img').removeClass('highlight');
+
+						$("button").attr('disabled',false);
+						var d = parseInt(getCookie('dice_value'));
+						if (d == 4 || d == 8 || kill == true) {
+							
+						}
+						else {
+							var i = turn_seq.indexOf(getCookie('current_turn'));
+							i++;
+							if (i > 3) {
+								i = 0;
+							}
+							if (i <= 3) {
+								setCookie('current_turn',turn_seq[i],1);
+							}
+							else {
+								alert('undefined');
+							}
+						}
+
+						setCookie('dice_value','',-1);
+						$("#dice_value").html('');
+						kill = false;
+					}
+					else {
+						alert("It's not your turn");
+					}
+
+				}
+				else {
+					alert('Please roll the dice');
+					$("button").focus();
+				}
+
+
+			});
+$("td").on("click",function(){
+	var cell = $(this).attr("cell-id");
+				// console.log("Cell:"+cell);
+			});
+});
+
+</script>
+
+</body>
+</html>
